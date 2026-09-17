@@ -62,37 +62,37 @@ startPage.classList.add("hide");
 finishPage.classList.add("hide");
 quizPage.classList.remove("hide");
 
-showQuestion();
+}function showQuestion(index) {
+    if (index >= questions.length) {
+        finishGame();
+        return;
+    }
 
-}
-function showQuestion(){
+    const q = questions[index];
 
-const q=questions[i];
+    questionPanel.hidden = false;
 
-bar.style.width=((i/questions.length)*100)+"%";
+    const parts = q.text.split("\n\n");
 
-question.textContent=(i+1)+". "+q.q;
+    questionText.textContent = parts[0];
 
-answers.innerHTML="";
-message.style.display="none";
+    const answersContainer =
+        document.getElementById("answersContainer");
 
-q.a.forEach(function(answer,index){
+    answersContainer.innerHTML = "";
 
-const btn=document.createElement("button");
+    q.answers.forEach((answer, i) => {
+        const button = document.createElement("button");
 
-btn.className="answer";
-btn.textContent=answer;
+        button.textContent = parts[i + 1];
 
-btn.onclick=function(){
+        button.className = "answer-button";
 
-checkAnswer(index);
+        button.onclick = () =>
+            answerQuestion(i, q.correct, index);
 
-};
-
-answers.appendChild(btn);
-
-});
-
+        answersContainer.appendChild(button);
+    });
 }
 
 function checkAnswer(index){
